@@ -1,0 +1,20 @@
+{% extends "/public/templates/base.html" %}
+
+{% block title %}Upload news article{% endblock %}
+
+{% block main %}
+
+<div class="card">
+    <div class="card-body">
+        <form action="/output" method="post">
+            <div class="form-group">
+                <label for="news_article_text_area">Enter the text of the news article</label>
+                <textarea class="form-control" id="news_article_text_area" name="news_article_text"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
