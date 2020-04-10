@@ -9,7 +9,7 @@ import numpy as np
 import torch
 import pickle
 
-from app.models import Pickle_model
+from app.models import Pickle_model, Fake_news_classifier_model
 
 class Preprocessor_controller():
     def __init__(self, vectorizer_path, device='cpu'):
@@ -18,6 +18,9 @@ class Preprocessor_controller():
 
         self.init_stemmer()
         self.init_vectorizer()
+
+    def get_vectorizer_vocab_size(self):
+        return len(self.vectorizer.vocabulary)
 
     def init_stemmer(self):
         nltk.download('stopwords')
@@ -67,8 +70,17 @@ class Preprocessor_controller():
         return tensor.to(self.device)
 
 class Fake_news_classifier_controller():
-    def __init__(self, model_path, device='cpu'):
-        pass
+    def __init__(self, model_path, in_features, device='cpu'):
+        self.model_path = model_path
+        self.model = Fake_news_classifier_model(in_features=in_features).to(device)
+        self.model.load_model(path=model_path, device=device)
+        self.model.eval()
 
-    def predict(self, text):
-        return {'Real':0.7, 'Fake':0.3}
+    def predict_tensor(self, tensor):
+        pred = self.model(tensor)
+        return pred
+
+    def predict(self, tensor):
+        prob_list = self.predict_tensor(tensor).tolist()
+
+        return [{'Real':true_prob, 'Fake':false_prob} for false_prob, true_prob in prob_list]
