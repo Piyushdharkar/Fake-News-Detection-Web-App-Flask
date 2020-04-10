@@ -56,7 +56,8 @@ $(document).ready(function () {
 
     $("#post_news_article_text_button").click(function() {
         text = $("#news_article_text_area").val();
-        request_json = {'news_article_text':text};
+        title = $("#news_article_title").val();
+        request_json = {'text':text, 'title':title};
 
         $.post('/predict', request_json).done(update_chart);
     });

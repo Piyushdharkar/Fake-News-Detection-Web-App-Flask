@@ -58,8 +58,11 @@ class Preprocessor_controller():
 
         return torch.sparse.FloatTensor(i, v, torch.Size(shape))
 
-    def transform(self, text_articles):
-        inputs = text_articles if isinstance(text_articles, list) else [text_articles]
+    def transform(self, text_articles, article_titles):
+        text = text_articles if isinstance(text_articles, list) else [text_articles]
+        titles = article_titles if isinstance(article_titles, list) else [article_titles]
+
+        inputs = [title + " " + text for (title, text) in zip(titles, text)]
 
         stemmed_text = [self.stem_text(text) for text in inputs]
         print("Stemmed_text: {}".format(stemmed_text))

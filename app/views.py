@@ -20,17 +20,19 @@ def predict():
     if request_dict is None:
         raise Invalid_usage('Cannot read json object.')
     print("Request dict: {}".format(request_dict))
-    if 'news_article_text' not in request_dict:
+    if 'text' not in request_dict or 'title' not in request_dict:
         raise Invalid_usage('Cannot find key in json object.')
-    news_article_text = request_dict['news_article_text']
-    if not isinstance(news_article_text, str):
+    news_article_text = request_dict['text']
+    news_article_title = request_dict['title']
+    if not isinstance(news_article_text, str) or not isinstance(news_article_title, str):
         raise Invalid_usage('Posted data is not string.')
     print('text: {}'.format(news_article_text))
-    if news_article_text.strip() == '':
+    print('title: {}'.format(news_article_title))
+    if news_article_text.strip() == '' or news_article_title.strip() == '':
         raise Invalid_usage('Posted data is empty')
 
     preprocessor_controller = current_app.preprocessor_controller
-    tensor = preprocessor_controller.transform(text_articles=news_article_text)
+    tensor = preprocessor_controller.transform(text_articles=news_article_text, article_titles=news_article_title)
 
     fake_news_classifier_controller = current_app.fake_news_classifier_controller
     result = fake_news_classifier_controller.predict(tensor=tensor)
