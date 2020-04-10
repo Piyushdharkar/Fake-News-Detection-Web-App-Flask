@@ -7,4 +7,4 @@ class Fake_news_classifier_controller():
         pass
 
     def predict(self, text):
-        return pd.DataFrame({'class':['Real', 'Fake'], 'probability': [0.3, 0.7]})
+        return {'Real':0.7, 'Fake':0.3}
