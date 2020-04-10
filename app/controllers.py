@@ -9,6 +9,8 @@ import numpy as np
 import torch
 import pickle
 
+from app.models import Pickle_model
+
 class Preprocessor_controller():
     def __init__(self, vectorizer_path, device='cpu'):
         self.vectorizer_path = vectorizer_path
@@ -28,7 +30,9 @@ class Preprocessor_controller():
         self.stemmer = PorterStemmer()
 
     def init_vectorizer(self):
-        vocabulary = pickle.load(open(self.vectorizer_path, 'rb'))
+        pickle_model = Pickle_model()
+
+        vocabulary = pickle_model.get_pickle(path=self.vectorizer_path)
         self.vectorizer = CountVectorizer(stop_words='english', vocabulary=vocabulary)
         self.vectorizer._validate_vocabulary()
 
