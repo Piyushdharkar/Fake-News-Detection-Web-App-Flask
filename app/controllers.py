@@ -83,4 +83,4 @@ class Fake_news_classifier_controller():
     def predict(self, tensor):
         prob_list = self.predict_tensor(tensor).tolist()
 
-        return [{'Real':true_prob, 'Fake':false_prob} for false_prob, true_prob in prob_list]
+        return [{'real':{'label':'Real', 'value':real_prob}, 'fake':{'label':'Fake', 'value':fake_prob}} for fake_prob, real_prob in prob_list]

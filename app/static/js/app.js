@@ -7,7 +7,7 @@ $(document).ready(function () {
           labels: [],
           datasets: [
             {
-              label: "Attack Type",
+              label: "Probability",
               backgroundColor: [],
               data: []
             }
@@ -35,16 +35,17 @@ $(document).ready(function () {
     };
 
     function update_chart(probabilities) {
-        alert(JSON.stringify(probabilities));
-
         labels = [];
         ys = [];
         colors = [];
 
-        $.each(probabilities, function(key, value) {
-            labels.push(key);
-            colors.push(generate_random_color());
-            ys.push(value);
+        $.each(probabilities, function(key, object) {
+            $.each(object, function(key, value) {
+
+                labels.push(value["label"]);
+                colors.push(generate_random_color());
+                ys.push(value["value"]);
+            });
         });
 
         chart.data.labels = labels;

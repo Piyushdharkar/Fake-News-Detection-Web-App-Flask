@@ -29,8 +29,12 @@ def predict():
     if news_article_text.strip() == '':
         raise Invalid_usage('Posted data is empty')
 
-    fake_news_classifier_controller = current_app.fake_news_classifier
-    result = fake_news_classifier_controller.predict(text=news_article_text)
+    preprocessor_controller = current_app.preprocessor_controller
+    tensor = preprocessor_controller.transform(text_articles=news_article_text)
+
+    fake_news_classifier_controller = current_app.fake_news_classifier_controller
+    result = fake_news_classifier_controller.predict(tensor=tensor)
+    print("Response json: {}".format(result))
 
     return jsonify(result)
 
