@@ -1,9 +1,11 @@
 from flask import Flask
 from app.controllers import Preprocessor_controller, Fake_news_classifier_controller
+import os
 
 app = Flask(__name__)
 
-app.config['MODEL_DIR'] = 'C:/Users/Piyush/PycharmProjects/FakeNewsDetection/app/static/model/'
+app.config['APP_DIR'] = os.path.dirname(os.path.realpath(__file__)) + '/'
+app.config['MODEL_DIR'] =  app.config['APP_DIR'] + 'static/model/'
 app.config['TORCH_DEVICE'] = 'cpu'
 
 preprocessor_controller = Preprocessor_controller(vectorizer_path=app.config['MODEL_DIR'] + 'vectorizer_vocab.pkl', device=app.config['TORCH_DEVICE'])
